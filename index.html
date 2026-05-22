@@ -305,11 +305,25 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
 /* ─── EXPENSES TRACKER ───────────────────────────── */
-.exp-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.exp-summary-card{background:#fff;border:2px solid var(--border);border-radius:14px;padding:14px 16px;text-align:center}
-.exp-summary-card .esc-label{font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.exp-summary-card .esc-value{font-family:'Caveat',cursive;font-size:1.8rem;font-weight:700;color:var(--deep);margin-top:2px}
-.exp-summary-card .esc-sub{font-size:.72rem;color:var(--muted);margin-top:1px}
+.exp-settle{background:linear-gradient(135deg,#E8F5E9,#F3E5F5);border:2px solid #A5D6A7;border-radius:16px;padding:16px;margin-bottom:16px}
+.exp-settle-title{font-size:.75rem;font-weight:700;color:#4A4A4A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;text-align:center}
+.exp-settle-persons{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:12px}
+.exp-person-card{background:#fff;border-radius:12px;padding:10px 12px;text-align:center;border:2px solid transparent}
+.exp-person-card.ivy{border-color:#CE93D8}.exp-person-card.me{border-color:#80CBC4}
+.exp-person-name{font-size:.72rem;font-weight:700;margin-bottom:2px}
+.exp-person-card.ivy .exp-person-name{color:#8E24AA}.exp-person-card.me .exp-person-name{color:#00897B}
+.exp-person-paid{font-family:'Caveat',cursive;font-size:1.4rem;font-weight:700;color:var(--deep)}
+.exp-person-share{font-size:.68rem;color:var(--muted)}
+.exp-settle-arrow{text-align:center;font-size:.75rem;color:var(--muted)}
+.exp-settle-verdict{text-align:center;padding:8px 12px;border-radius:10px;font-size:.85rem;font-weight:700}
+.exp-settle-verdict.even{background:#E8F5E9;color:#2E7D32}
+.exp-settle-verdict.ivy-owes{background:#F3E5F5;color:#6A1B9A}
+.exp-settle-verdict.me-owes{background:#E0F2F1;color:#00695C}
+.exp-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.exp-summary-card{background:#fff;border:2px solid var(--border);border-radius:14px;padding:12px 14px;text-align:center}
+.exp-summary-card .esc-label{font-size:.68rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.exp-summary-card .esc-value{font-family:'Caveat',cursive;font-size:1.7rem;font-weight:700;color:var(--deep);margin-top:2px}
+.exp-summary-card .esc-sub{font-size:.68rem;color:var(--muted);margin-top:1px}
 .exp-summary-card.highlight{background:linear-gradient(135deg,var(--mint-light),#fff);border-color:var(--teal)}
 .exp-summary-card.highlight .esc-value{color:var(--teal)}
 .exp-add-btn{width:100%;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:16px;border-bottom:3px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;gap:8px}
@@ -322,6 +336,14 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 .exp-form label{font-size:.75rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
 .exp-form input,.exp-form select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.9rem;background:#FAFAFA;box-sizing:border-box;font-family:inherit}
 .exp-form input:focus,.exp-form select:focus{outline:none;border-color:var(--teal);background:#fff}
+.exp-who-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:9px;overflow:hidden;background:#FAFAFA}
+.exp-who-btn{flex:1;padding:9px 6px;border:none;background:transparent;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s}
+.exp-who-btn.active-ivy{background:#CE93D8;color:#fff}
+.exp-who-btn.active-me{background:#80CBC4;color:#fff}
+.exp-receipt-area{border:2px dashed var(--border);border-radius:10px;padding:10px;text-align:center;cursor:pointer;background:#FAFAFA;position:relative;min-height:54px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:.82rem;color:var(--muted);font-weight:600}
+.exp-receipt-area:hover{border-color:var(--teal);background:var(--mint-light)}
+.exp-receipt-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.exp-receipt-preview{width:48px;height:48px;object-fit:cover;border-radius:6px;border:1.5px solid var(--border)}
 .exp-form-actions{display:flex;gap:8px;margin-top:12px}
 .exp-save-btn{flex:1;padding:10px;background:var(--teal);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:.9rem}
 .exp-cancel-btn{padding:10px 16px;background:var(--border);color:var(--deep);border:none;border-radius:9px;font-weight:600;cursor:pointer;font-size:.9rem}
@@ -332,28 +354,39 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 .exp-day-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 0 6px;border-bottom:2px dashed var(--border);margin-bottom:8px}
 .exp-day-group-hdr span{font-weight:700;color:var(--deep);font-size:.9rem}
 .exp-day-total{font-family:'Caveat',cursive;font-size:1.05rem;color:var(--teal);font-weight:700}
-.exp-item{display:flex;align-items:center;gap:10px;padding:9px 10px;background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:6px}
+.exp-item{background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;overflow:hidden}
+.exp-item-main{display:flex;align-items:center;gap:10px;padding:9px 10px}
 .exp-item-icon{font-size:1.2rem;flex-shrink:0}
 .exp-item-info{flex:1;min-width:0}
 .exp-item-name{font-size:.85rem;font-weight:600;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.exp-item-meta{font-size:.72rem;color:var(--muted)}
+.exp-item-meta{font-size:.7rem;color:var(--muted);display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:2px}
+.exp-payer-pill{display:inline-flex;align-items:center;padding:1px 7px;border-radius:20px;font-size:.68rem;font-weight:700}
+.exp-payer-pill.ivy{background:#F3E5F5;color:#8E24AA}
+.exp-payer-pill.me{background:#E0F2F1;color:#00695C}
+.exp-split-row{font-size:.68rem;color:var(--muted)}
 .exp-item-amt{text-align:right;flex-shrink:0}
 .exp-item-cny{font-family:'Caveat',cursive;font-size:1.05rem;font-weight:700;color:var(--deep)}
-.exp-item-sgd{font-size:.72rem;color:var(--muted)}
+.exp-item-sgd{font-size:.68rem;color:var(--muted)}
 .exp-del-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:1rem;padding:0 2px;flex-shrink:0}
 .exp-del-btn:hover{color:#e53935}
+.exp-item-receipt{width:100%;max-height:160px;object-fit:cover;display:block;cursor:pointer;border-top:1px solid var(--border)}
 .exp-empty{text-align:center;padding:32px 16px;color:var(--muted);font-size:.9rem}
 .exp-empty .empty-icon{font-size:2.5rem;margin-bottom:8px}
 .exp-cat-breakdown{background:#fff;border:2px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:16px}
-.exp-cat-breakdown h4{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.exp-cat-breakdown h4{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
 .exp-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.exp-bar-label{font-size:.78rem;width:70px;flex-shrink:0;color:var(--deep)}
+.exp-bar-label{font-size:.75rem;width:74px;flex-shrink:0;color:var(--deep)}
 .exp-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
 .exp-bar-fill{height:100%;border-radius:4px;background:var(--teal);transition:width .3s}
-.exp-bar-val{font-size:.75rem;font-weight:700;color:var(--teal);width:50px;text-align:right;flex-shrink:0}
+.exp-bar-val{font-size:.74rem;font-weight:700;color:var(--teal);width:50px;text-align:right;flex-shrink:0}
 .exp-clear-btn{width:100%;padding:10px;background:#fff;border:1.5px solid #ffcdd2;border-radius:10px;color:#c62828;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:8px}
 .exp-clear-btn:hover{background:#ffebee}
 .exp-rate-note{font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:14px;padding:6px 12px;background:#fff;border-radius:8px;border:1px solid var(--border)}
+/* Receipt lightbox */
+#exp-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center}
+#exp-lightbox.open{display:flex}
+#exp-lightbox img{max-width:90vw;max-height:88vh;border-radius:10px;box-shadow:0 8px 40px rgba(0,0,0,.5)}
+#exp-lightbox-close{position:absolute;top:16px;right:18px;color:#fff;font-size:1.8rem;cursor:pointer;line-height:1}
 
 /* ─── LEAFLET CUSTOM MARKERS ─────────────────────── */
 .custom-marker{
@@ -1897,49 +1930,94 @@ function renderWellness(){
 //  EXPENSES TRACKER
 // ═══════════════════════════════════════════════════════════
 const EXP_KEY = 'beauty-china-trip-expenses';
-const EXP_RATE = 4.85; // 1 SGD ≈ 4.85 CNY (approximate)
+const EXP_IMG_PREFIX = 'bct-img-';
+const EXP_RATE = 4.85; // 1 SGD ≈ 4.85 CNY
 const EXP_CATS = [
-  {key:'all',   label:'All',       icon:'📋'},
-  {key:'food',  label:'Food',      icon:'🍜'},
+  {key:'all',       label:'All',       icon:'📋'},
+  {key:'food',      label:'Food',      icon:'🍜'},
   {key:'transport', label:'Transport', icon:'🚌'},
   {key:'shopping',  label:'Shopping',  icon:'🛍️'},
-  {key:'hotel', label:'Hotel',     icon:'🏨'},
+  {key:'hotel',     label:'Hotel',     icon:'🏨'},
   {key:'activity',  label:'Activity',  icon:'🎭'},
-  {key:'other', label:'Other',     icon:'💸'},
+  {key:'other',     label:'Other',     icon:'💸'},
 ];
 
 function expLoad(){ try{ return JSON.parse(localStorage.getItem(EXP_KEY)||'[]'); }catch(e){ return []; } }
 function expSave(data){ localStorage.setItem(EXP_KEY, JSON.stringify(data)); }
+function expImgLoad(id){ return localStorage.getItem(EXP_IMG_PREFIX+id)||null; }
+function expImgSave(id, dataUrl){ try{ localStorage.setItem(EXP_IMG_PREFIX+id, dataUrl); }catch(e){ alert('Storage full — image too large, try a smaller photo.'); } }
+function expImgDel(id){ localStorage.removeItem(EXP_IMG_PREFIX+id); }
+
+// Compress image via canvas before storing
+function compressImage(file, maxPx, quality, cb){
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const scale = Math.min(1, maxPx/Math.max(img.width,img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width*scale);
+      c.height = Math.round(img.height*scale);
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      cb(c.toDataURL('image/jpeg', quality));
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
 function renderExpenses(){
   const tl = document.getElementById('timeline');
   activeMarkers.forEach(m=>map.removeLayer(m)); activeMarkers=[];
 
+  // Ensure lightbox exists
+  if(!document.getElementById('exp-lightbox')){
+    const lb = document.createElement('div');
+    lb.id='exp-lightbox';
+    lb.innerHTML='<span id="exp-lightbox-close">✕</span><img id="exp-lightbox-img" src="" alt="receipt">';
+    document.body.appendChild(lb);
+    lb.onclick=e=>{ if(e.target===lb||e.target.id==='exp-lightbox-close') lb.classList.remove('open'); };
+  }
+
   let filterCat = 'all';
   let formOpen = false;
+  let formWho = 'me'; // 'ivy' or 'me'
+  let pendingImg = null; // compressed data URL before save
 
-  function cnyToSgd(cny){ return (cny/EXP_RATE).toFixed(2); }
   function catIcon(k){ return (EXP_CATS.find(c=>c.key===k)||{icon:'💸'}).icon; }
   function catLabel(k){ return (EXP_CATS.find(c=>c.key===k)||{label:'Other'}).label; }
+  function sgd(cny){ return (cny/EXP_RATE).toFixed(0); }
 
   function render(){
     const data = expLoad();
     const filtered = filterCat==='all' ? data : data.filter(e=>e.cat===filterCat);
     const totalCny = data.reduce((s,e)=>s+e.cny,0);
-    const totalSgd = (totalCny/EXP_RATE).toFixed(2);
-    const todayKey = DAYS[0]?.key; // not used for filtering, just info
+    const ivyPaid = data.filter(e=>e.who==='ivy').reduce((s,e)=>s+e.cny,0);
+    const mePaid  = data.filter(e=>e.who==='me').reduce((s,e)=>s+e.cny,0);
+    const fairShare = totalCny/2;
+    const ivyBalance = ivyPaid - fairShare; // positive = ivy overpaid = me owes ivy
+    const meBalance  = mePaid  - fairShare; // positive = me overpaid = ivy owes me
 
-    // Group by day
-    const byDay = {};
-    filtered.forEach(e=>{
-      if(!byDay[e.day]) byDay[e.day]=[]; byDay[e.day].push(e);
-    });
+    let verdictHtml = '';
+    if(totalCny===0){
+      verdictHtml = `<div class="exp-settle-verdict even">🎒 Add expenses to see who owes who</div>`;
+    } else if(Math.abs(ivyBalance)<1){
+      verdictHtml = `<div class="exp-settle-verdict even">✅ You're perfectly even!</div>`;
+    } else if(ivyBalance>0){
+      // Ivy paid more → Me owes Ivy
+      verdictHtml = `<div class="exp-settle-verdict me-owes">💚 You owe Ivy ¥${ivyBalance.toFixed(0)} (S$${(ivyBalance/EXP_RATE).toFixed(0)})</div>`;
+    } else {
+      // Me paid more → Ivy owes Me
+      const amt = Math.abs(ivyBalance);
+      verdictHtml = `<div class="exp-settle-verdict ivy-owes">💜 Ivy owes you ¥${amt.toFixed(0)} (S$${(amt/EXP_RATE).toFixed(0)})</div>`;
+    }
 
-    // Category totals for bar chart
     const catTotals = {};
     data.forEach(e=>{ catTotals[e.cat]=(catTotals[e.cat]||0)+e.cny; });
     const maxCat = Math.max(1,...Object.values(catTotals));
 
+    const byDay = {};
+    filtered.forEach(e=>{ if(!byDay[e.day]) byDay[e.day]=[]; byDay[e.day].push(e); });
     const dayLabels = {};
     DAYS.forEach(d=>{ dayLabels[d.key]=d.emoji+' '+d.label; });
 
@@ -1948,18 +2026,38 @@ function renderExpenses(){
         <div class="day-hdr-top">
           <div class="day-badge" style="background:#2B5C52">💰 Expenses</div>
           <div class="day-title-wrap">
-            <div class="dt-main">Trip Expense Tracker</div>
-            <div class="dt-sub">Track spending in CNY · shown in SGD too</div>
+            <div class="dt-main">Ivy & Me — Trip Tracker</div>
+            <div class="dt-sub">50/50 split · tap receipt to view · saves on device</div>
           </div>
         </div>
       </div>
       <div class="spec-section">
         <div class="exp-rate-note">Exchange rate: 1 SGD ≈ ${EXP_RATE} CNY (estimate)</div>
+
+        <!-- Settlement card -->
+        <div class="exp-settle">
+          <div class="exp-settle-title">💸 Who Paid What</div>
+          <div class="exp-settle-persons">
+            <div class="exp-person-card ivy">
+              <div class="exp-person-name">🌸 Ivy</div>
+              <div class="exp-person-paid">¥${ivyPaid.toFixed(0)}</div>
+              <div class="exp-person-share">S$${sgd(ivyPaid)} paid</div>
+            </div>
+            <div class="exp-settle-arrow">⟺<br><span style="font-size:.65rem">fair share<br>¥${fairShare.toFixed(0)} each</span></div>
+            <div class="exp-person-card me">
+              <div class="exp-person-name">🙋 Me</div>
+              <div class="exp-person-paid">¥${mePaid.toFixed(0)}</div>
+              <div class="exp-person-share">S$${sgd(mePaid)} paid</div>
+            </div>
+          </div>
+          ${verdictHtml}
+        </div>
+
         <div class="exp-summary">
           <div class="exp-summary-card highlight">
             <div class="esc-label">Total Spent</div>
             <div class="esc-value">¥${totalCny.toFixed(0)}</div>
-            <div class="esc-sub">SGD $${totalSgd}</div>
+            <div class="esc-sub">S$${sgd(totalCny)} total</div>
           </div>
           <div class="exp-summary-card">
             <div class="esc-label">Entries</div>
@@ -2010,11 +2108,21 @@ function renderExpenses(){
             </div>
             <div>
               <label>Paid by</label>
-              <select id="ef-who">
-                <option value="Group">👥 Group</option>
-                <option value="Me">🙋 Me</option>
-                <option value="Friend">👯 Friend</option>
-              </select>
+              <div class="exp-who-toggle" id="ef-who-toggle">
+                <button class="exp-who-btn ${formWho==='ivy'?'active-ivy':''}" data-who="ivy">🌸 Ivy</button>
+                <button class="exp-who-btn ${formWho==='me'?'active-me':''}" data-who="me">🙋 Me</button>
+              </div>
+            </div>
+          </div>
+          <div class="exp-row full">
+            <div>
+              <label>📷 Receipt photo (optional)</label>
+              <div class="exp-receipt-area" id="ef-receipt-area">
+                ${pendingImg
+                  ? `<img class="exp-receipt-preview" src="${pendingImg}" alt="receipt"><span>Tap to change</span>`
+                  : `<span>📷 Tap to upload receipt</span>`}
+                <input type="file" id="ef-img" accept="image/*" capture="environment">
+              </div>
             </div>
           </div>
           <div class="exp-form-actions">
@@ -2027,7 +2135,7 @@ function renderExpenses(){
           ${EXP_CATS.map(c=>`<button class="exp-cat-tab${filterCat===c.key?' active':''}" data-cat="${c.key}">${c.icon} ${c.label}</button>`).join('')}
         </div>
 
-        ${filtered.length===0?`<div class="exp-empty"><div class="empty-icon">🧾</div><div>No expenses yet${filterCat!=='all'?' in this category':''}</div><div style="font-size:.78rem;margin-top:4px">Tap ＋ Add Expense to start tracking</div></div>`:''}
+        ${filtered.length===0?`<div class="exp-empty"><div class="empty-icon">🧾</div><div>No expenses yet${filterCat!=='all'?' in this category':''}</div><div style="font-size:.78rem;margin-top:4px">Tap ＋ Add Expense to start</div></div>`:''}
 
         ${Object.keys(byDay).sort().map(dayKey=>{
           const items = byDay[dayKey];
@@ -2036,59 +2144,109 @@ function renderExpenses(){
           <div class="exp-day-group">
             <div class="exp-day-group-hdr">
               <span>${dayLabels[dayKey]||dayKey}</span>
-              <span class="exp-day-total">¥${dayTotal.toFixed(0)} <span style="font-size:.72rem;font-weight:400">≈ S$${(dayTotal/EXP_RATE).toFixed(0)}</span></span>
+              <span class="exp-day-total">¥${dayTotal.toFixed(0)} <span style="font-size:.7rem;font-weight:400">≈ S$${sgd(dayTotal)}</span></span>
             </div>
-            ${items.map(e=>`
+            ${items.map(e=>{
+              const imgData = expImgLoad(e.id);
+              const half = (e.cny/2).toFixed(0);
+              const payerClass = e.who==='ivy'?'ivy':'me';
+              const payerLabel = e.who==='ivy'?'🌸 Ivy paid':'🙋 Me paid';
+              return `
               <div class="exp-item">
-                <div class="exp-item-icon">${catIcon(e.cat)}</div>
-                <div class="exp-item-info">
-                  <div class="exp-item-name">${e.desc||'—'}</div>
-                  <div class="exp-item-meta">${catLabel(e.cat)} · ${e.who||'Group'}</div>
+                <div class="exp-item-main">
+                  <div class="exp-item-icon">${catIcon(e.cat)}</div>
+                  <div class="exp-item-info">
+                    <div class="exp-item-name">${e.desc||'—'}</div>
+                    <div class="exp-item-meta">
+                      <span class="exp-payer-pill ${payerClass}">${payerLabel}</span>
+                      <span class="exp-split-row">each ¥${half}</span>
+                      ${imgData?'📷':''}
+                    </div>
+                  </div>
+                  <div class="exp-item-amt">
+                    <div class="exp-item-cny">¥${e.cny.toFixed(0)}</div>
+                    <div class="exp-item-sgd">S$${sgd(e.cny)}</div>
+                  </div>
+                  <button class="exp-del-btn" data-id="${e.id}" title="Delete">✕</button>
                 </div>
-                <div class="exp-item-amt">
-                  <div class="exp-item-cny">¥${e.cny.toFixed(0)}</div>
-                  <div class="exp-item-sgd">S$${cnyToSgd(e.cny)}</div>
-                </div>
-                <button class="exp-del-btn" data-id="${e.id}" title="Delete">✕</button>
-              </div>`).join('')}
+                ${imgData?`<img class="exp-item-receipt" src="${imgData}" alt="receipt" data-id="${e.id}">`:''}
+              </div>`;
+            }).join('')}
           </div>`;
         }).join('')}
 
         ${data.length>0?`<button class="exp-clear-btn" id="exp-clear">🗑️ Clear all expenses</button>`:''}
       </div>`;
 
-    // Wire up events
-    document.getElementById('exp-add-btn').onclick=()=>{ formOpen=!formOpen; render(); };
+    // ── Wire events ──
+    document.getElementById('exp-add-btn').onclick=()=>{ formOpen=!formOpen; if(!formOpen) pendingImg=null; render(); };
+
     const form = document.getElementById('exp-form');
     if(form){
+      // Who toggle
+      document.querySelectorAll('[data-who]').forEach(btn=>{
+        btn.onclick=()=>{ formWho=btn.dataset.who; render(); };
+      });
+
+      // Image upload
+      const imgInput = document.getElementById('ef-img');
+      if(imgInput) imgInput.onchange=()=>{
+        const file = imgInput.files[0];
+        if(!file) return;
+        compressImage(file, 1000, 0.75, dataUrl=>{ pendingImg=dataUrl; render(); });
+      };
+
+      // Save
       document.getElementById('ef-save').onclick=()=>{
         const cny = parseFloat(document.getElementById('ef-cny').value);
         if(!cny||cny<=0){ alert('Enter a valid amount'); return; }
+        const id = Date.now().toString();
         const entry = {
-          id: Date.now().toString(),
-          cny,
+          id, cny,
           desc: document.getElementById('ef-desc').value.trim()||'Expense',
           cat: document.getElementById('ef-cat').value,
           day: document.getElementById('ef-day').value,
-          who: document.getElementById('ef-who').value,
+          who: formWho,
           ts: Date.now()
         };
+        if(pendingImg) expImgSave(id, pendingImg);
         const arr = expLoad(); arr.push(entry); expSave(arr);
-        formOpen=false; render();
+        formOpen=false; pendingImg=null; render();
       };
-      document.getElementById('ef-cancel').onclick=()=>{ formOpen=false; render(); };
+
+      document.getElementById('ef-cancel').onclick=()=>{ formOpen=false; pendingImg=null; render(); };
     }
+
+    // Delete
     document.querySelectorAll('.exp-del-btn').forEach(btn=>{
       btn.onclick=()=>{
         if(!confirm('Delete this entry?')) return;
-        const arr = expLoad().filter(e=>e.id!==btn.dataset.id); expSave(arr); render();
+        expImgDel(btn.dataset.id);
+        expSave(expLoad().filter(e=>e.id!==btn.dataset.id));
+        render();
       };
     });
+
+    // Category filter
     document.querySelectorAll('.exp-cat-tab').forEach(btn=>{
       btn.onclick=()=>{ filterCat=btn.dataset.cat; render(); };
     });
+
+    // Clear all
     const clearBtn = document.getElementById('exp-clear');
-    if(clearBtn) clearBtn.onclick=()=>{ if(confirm('Clear ALL expenses? This cannot be undone.')){ expSave([]); render(); } };
+    if(clearBtn) clearBtn.onclick=()=>{
+      if(!confirm('Clear ALL expenses? This cannot be undone.')) return;
+      expLoad().forEach(e=>expImgDel(e.id));
+      expSave([]); render();
+    };
+
+    // Receipt lightbox
+    document.querySelectorAll('.exp-item-receipt').forEach(img=>{
+      img.onclick=()=>{
+        document.getElementById('exp-lightbox-img').src=img.src;
+        document.getElementById('exp-lightbox').classList.add('open');
+      };
+    });
   }
 
   render();
