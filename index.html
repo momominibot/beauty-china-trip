@@ -304,6 +304,57 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 .leg-item{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600}
 .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
+/* ─── EXPENSES TRACKER ───────────────────────────── */
+.exp-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.exp-summary-card{background:#fff;border:2px solid var(--border);border-radius:14px;padding:14px 16px;text-align:center}
+.exp-summary-card .esc-label{font-size:.72rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.exp-summary-card .esc-value{font-family:'Caveat',cursive;font-size:1.8rem;font-weight:700;color:var(--deep);margin-top:2px}
+.exp-summary-card .esc-sub{font-size:.72rem;color:var(--muted);margin-top:1px}
+.exp-summary-card.highlight{background:linear-gradient(135deg,var(--mint-light),#fff);border-color:var(--teal)}
+.exp-summary-card.highlight .esc-value{color:var(--teal)}
+.exp-add-btn{width:100%;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:16px;border-bottom:3px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;gap:8px}
+.exp-add-btn:active{transform:translateY(1px);border-bottom-width:1px}
+.exp-form{background:#fff;border:2px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px;display:none}
+.exp-form.open{display:block}
+.exp-form h4{font-family:'Playfair Display',serif;font-size:1rem;color:var(--deep);margin-bottom:12px}
+.exp-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.exp-row.full{grid-template-columns:1fr}
+.exp-form label{font-size:.75rem;font-weight:700;color:var(--muted);display:block;margin-bottom:4px}
+.exp-form input,.exp-form select{width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-size:.9rem;background:#FAFAFA;box-sizing:border-box;font-family:inherit}
+.exp-form input:focus,.exp-form select:focus{outline:none;border-color:var(--teal);background:#fff}
+.exp-form-actions{display:flex;gap:8px;margin-top:12px}
+.exp-save-btn{flex:1;padding:10px;background:var(--teal);color:#fff;border:none;border-radius:9px;font-weight:700;cursor:pointer;font-size:.9rem}
+.exp-cancel-btn{padding:10px 16px;background:var(--border);color:var(--deep);border:none;border-radius:9px;font-weight:600;cursor:pointer;font-size:.9rem}
+.exp-cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.exp-cat-tab{padding:5px 12px;border:1.5px solid var(--border);border-radius:20px;background:#fff;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--muted)}
+.exp-cat-tab.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.exp-day-group{margin-bottom:20px}
+.exp-day-group-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 0 6px;border-bottom:2px dashed var(--border);margin-bottom:8px}
+.exp-day-group-hdr span{font-weight:700;color:var(--deep);font-size:.9rem}
+.exp-day-total{font-family:'Caveat',cursive;font-size:1.05rem;color:var(--teal);font-weight:700}
+.exp-item{display:flex;align-items:center;gap:10px;padding:9px 10px;background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:6px}
+.exp-item-icon{font-size:1.2rem;flex-shrink:0}
+.exp-item-info{flex:1;min-width:0}
+.exp-item-name{font-size:.85rem;font-weight:600;color:var(--deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exp-item-meta{font-size:.72rem;color:var(--muted)}
+.exp-item-amt{text-align:right;flex-shrink:0}
+.exp-item-cny{font-family:'Caveat',cursive;font-size:1.05rem;font-weight:700;color:var(--deep)}
+.exp-item-sgd{font-size:.72rem;color:var(--muted)}
+.exp-del-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:1rem;padding:0 2px;flex-shrink:0}
+.exp-del-btn:hover{color:#e53935}
+.exp-empty{text-align:center;padding:32px 16px;color:var(--muted);font-size:.9rem}
+.exp-empty .empty-icon{font-size:2.5rem;margin-bottom:8px}
+.exp-cat-breakdown{background:#fff;border:2px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.exp-cat-breakdown h4{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.exp-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.exp-bar-label{font-size:.78rem;width:70px;flex-shrink:0;color:var(--deep)}
+.exp-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.exp-bar-fill{height:100%;border-radius:4px;background:var(--teal);transition:width .3s}
+.exp-bar-val{font-size:.75rem;font-weight:700;color:var(--teal);width:50px;text-align:right;flex-shrink:0}
+.exp-clear-btn{width:100%;padding:10px;background:#fff;border:1.5px solid #ffcdd2;border-radius:10px;color:#c62828;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:8px}
+.exp-clear-btn:hover{background:#ffebee}
+.exp-rate-note{font-size:.72rem;color:var(--muted);text-align:center;margin-bottom:14px;padding:6px 12px;background:#fff;border-radius:8px;border:1px solid var(--border)}
+
 /* ─── LEAFLET CUSTOM MARKERS ─────────────────────── */
 .custom-marker{
   display:flex;align-items:center;justify-content:center;
@@ -920,9 +971,9 @@ const DAYS = [
   {
     key:'may23', label:'23 May', emoji:'✈️', sublabel:'Arrive CD', badgeClass:'travel',
     title:'✈️ Arrival Day — Chunxi Road & Taikoo Li',
-    sub:'Arrive Chengdu 12:25pm · JW Marriott Hotel (2 nights) · Chill at Chunxi tonight',
+    sub:'Arrive Chengdu 12:25pm · JW Marriott Hotel (1 night) · Chill at Chunxi tonight',
     weather:{icon:'⛅',temp:'21–27°C',desc:'Partly cloudy · humid. Typical Chengdu overcast',rain:'35%',humid:'75%'},
-    hotel:{name:'JW Marriott Hotel Chengdu',nameZh:'成都JW万豪酒店 · 滨江中路9号',note:'Night 1 of 2 · Check out 24 May evening (move to 汉庭)',amap:'https://uri.amap.com/marker?position=104.0695,30.6583&name=成都JW万豪酒店'},
+    hotel:{name:'JW Marriott Hotel Chengdu',nameZh:'成都JW万豪酒店 · 滨江中路9号',note:'1 night only · Check out 24 May morning before Panda Base',amap:'https://uri.amap.com/marker?position=104.0695,30.6583&name=成都JW万豪酒店'},
     center:[30.6572,104.0800], zoom:13,
     stops:[
       {time:'12:25',icon:'✈️',type:'transport',
@@ -974,7 +1025,7 @@ const DAYS = [
     title:'🐼 Giant Pandas · 🏔️ Leshan Day Trip',
     sub:'Early Panda Base → High-speed train to 乐山 Giant Buddha + Best Sichuan Food → Move to 汉庭',
     weather:{icon:'🌦️',temp:'20–26°C',desc:'Shower likely · bring umbrella! Leshan can be misty',rain:'50%',humid:'80%'},
-    hotel:{name:'Tonight: Check-out JW Marriott → Move to 汉庭酒店 Longquanyi',nameZh:'今晚退出JW万豪 · 迁入汉庭酒店 · 龙泉驿经开区',note:'Training starts tomorrow. Pack & store luggage before the day trip.'},
+    hotel:{name:'Check-out JW Marriott early → 汉庭酒店 Longquanyi (check-in tonight)',nameZh:'早上退出JW万豪 · 今晚迁入汉庭酒店 · 龙泉驿经开区',note:'Check out before Panda Base. Store bags at hotel or station lockers. Check into 汉庭 after returning from Leshan.'},
     center:[30.6900,104.1000], zoom:10,
     stops:[
       {time:'07:30',icon:'🐼',type:'activity',
@@ -1653,6 +1704,7 @@ function buildNav(){
   [
     {key:'bookings', emoji:'🍽️', label:'Reservations', sub:'Must Book'},
     {key:'wellness', emoji:'💆', label:'Spa & TCM',    sub:'Wellness'},
+    {key:'expenses', emoji:'💰', label:'Expenses',     sub:'Trip Tracker'},
   ].forEach(t=>{
     const btn = document.createElement('button');
     btn.className = 'dnav-btn special-tab';
@@ -1669,7 +1721,8 @@ function selectSpecial(key){
   document.getElementById('stab-'+key).classList.add('active');
   document.getElementById('stab-'+key).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
   if(key==='bookings') renderBookings();
-  else renderWellness();
+  else if(key==='wellness') renderWellness();
+  else renderExpenses();
 }
 
 function renderBookings(){
@@ -1838,6 +1891,207 @@ function renderWellness(){
   if(allW.length){
     map.fitBounds(L.latLngBounds(allW.map(w=>w.coord)),{padding:[40,40],maxZoom:13});
   }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXPENSES TRACKER
+// ═══════════════════════════════════════════════════════════
+const EXP_KEY = 'beauty-china-trip-expenses';
+const EXP_RATE = 4.85; // 1 SGD ≈ 4.85 CNY (approximate)
+const EXP_CATS = [
+  {key:'all',   label:'All',       icon:'📋'},
+  {key:'food',  label:'Food',      icon:'🍜'},
+  {key:'transport', label:'Transport', icon:'🚌'},
+  {key:'shopping',  label:'Shopping',  icon:'🛍️'},
+  {key:'hotel', label:'Hotel',     icon:'🏨'},
+  {key:'activity',  label:'Activity',  icon:'🎭'},
+  {key:'other', label:'Other',     icon:'💸'},
+];
+
+function expLoad(){ try{ return JSON.parse(localStorage.getItem(EXP_KEY)||'[]'); }catch(e){ return []; } }
+function expSave(data){ localStorage.setItem(EXP_KEY, JSON.stringify(data)); }
+
+function renderExpenses(){
+  const tl = document.getElementById('timeline');
+  activeMarkers.forEach(m=>map.removeLayer(m)); activeMarkers=[];
+
+  let filterCat = 'all';
+  let formOpen = false;
+
+  function cnyToSgd(cny){ return (cny/EXP_RATE).toFixed(2); }
+  function catIcon(k){ return (EXP_CATS.find(c=>c.key===k)||{icon:'💸'}).icon; }
+  function catLabel(k){ return (EXP_CATS.find(c=>c.key===k)||{label:'Other'}).label; }
+
+  function render(){
+    const data = expLoad();
+    const filtered = filterCat==='all' ? data : data.filter(e=>e.cat===filterCat);
+    const totalCny = data.reduce((s,e)=>s+e.cny,0);
+    const totalSgd = (totalCny/EXP_RATE).toFixed(2);
+    const todayKey = DAYS[0]?.key; // not used for filtering, just info
+
+    // Group by day
+    const byDay = {};
+    filtered.forEach(e=>{
+      if(!byDay[e.day]) byDay[e.day]=[]; byDay[e.day].push(e);
+    });
+
+    // Category totals for bar chart
+    const catTotals = {};
+    data.forEach(e=>{ catTotals[e.cat]=(catTotals[e.cat]||0)+e.cny; });
+    const maxCat = Math.max(1,...Object.values(catTotals));
+
+    const dayLabels = {};
+    DAYS.forEach(d=>{ dayLabels[d.key]=d.emoji+' '+d.label; });
+
+    tl.innerHTML = `
+      <div class="day-hdr">
+        <div class="day-hdr-top">
+          <div class="day-badge" style="background:#2B5C52">💰 Expenses</div>
+          <div class="day-title-wrap">
+            <div class="dt-main">Trip Expense Tracker</div>
+            <div class="dt-sub">Track spending in CNY · shown in SGD too</div>
+          </div>
+        </div>
+      </div>
+      <div class="spec-section">
+        <div class="exp-rate-note">Exchange rate: 1 SGD ≈ ${EXP_RATE} CNY (estimate)</div>
+        <div class="exp-summary">
+          <div class="exp-summary-card highlight">
+            <div class="esc-label">Total Spent</div>
+            <div class="esc-value">¥${totalCny.toFixed(0)}</div>
+            <div class="esc-sub">SGD $${totalSgd}</div>
+          </div>
+          <div class="exp-summary-card">
+            <div class="esc-label">Entries</div>
+            <div class="esc-value">${data.length}</div>
+            <div class="esc-sub">across ${[...new Set(data.map(e=>e.day))].length} days</div>
+          </div>
+        </div>
+
+        ${data.length>0?`
+        <div class="exp-cat-breakdown">
+          <h4>By Category</h4>
+          ${EXP_CATS.filter(c=>c.key!=='all'&&catTotals[c.key]).map(c=>`
+            <div class="exp-bar-row">
+              <div class="exp-bar-label">${c.icon} ${c.label}</div>
+              <div class="exp-bar-track"><div class="exp-bar-fill" style="width:${((catTotals[c.key]||0)/maxCat*100).toFixed(0)}%"></div></div>
+              <div class="exp-bar-val">¥${(catTotals[c.key]||0).toFixed(0)}</div>
+            </div>`).join('')}
+        </div>`:''}
+
+        <button class="exp-add-btn" id="exp-add-btn">＋ Add Expense</button>
+
+        <div class="exp-form ${formOpen?'open':''}" id="exp-form">
+          <h4>New Expense</h4>
+          <div class="exp-row">
+            <div>
+              <label>Amount (¥ CNY)</label>
+              <input type="number" id="ef-cny" placeholder="e.g. 68" min="0" step="0.01">
+            </div>
+            <div>
+              <label>Date</label>
+              <select id="ef-day">
+                ${DAYS.map(d=>`<option value="${d.key}">${d.emoji} ${d.label}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div class="exp-row full">
+            <div>
+              <label>Description</label>
+              <input type="text" id="ef-desc" placeholder="e.g. Dan Dan Mian at Chunxi Road">
+            </div>
+          </div>
+          <div class="exp-row">
+            <div>
+              <label>Category</label>
+              <select id="ef-cat">
+                ${EXP_CATS.filter(c=>c.key!=='all').map(c=>`<option value="${c.key}">${c.icon} ${c.label}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label>Paid by</label>
+              <select id="ef-who">
+                <option value="Group">👥 Group</option>
+                <option value="Me">🙋 Me</option>
+                <option value="Friend">👯 Friend</option>
+              </select>
+            </div>
+          </div>
+          <div class="exp-form-actions">
+            <button class="exp-save-btn" id="ef-save">💾 Save</button>
+            <button class="exp-cancel-btn" id="ef-cancel">Cancel</button>
+          </div>
+        </div>
+
+        <div class="exp-cat-tabs">
+          ${EXP_CATS.map(c=>`<button class="exp-cat-tab${filterCat===c.key?' active':''}" data-cat="${c.key}">${c.icon} ${c.label}</button>`).join('')}
+        </div>
+
+        ${filtered.length===0?`<div class="exp-empty"><div class="empty-icon">🧾</div><div>No expenses yet${filterCat!=='all'?' in this category':''}</div><div style="font-size:.78rem;margin-top:4px">Tap ＋ Add Expense to start tracking</div></div>`:''}
+
+        ${Object.keys(byDay).sort().map(dayKey=>{
+          const items = byDay[dayKey];
+          const dayTotal = items.reduce((s,e)=>s+e.cny,0);
+          return `
+          <div class="exp-day-group">
+            <div class="exp-day-group-hdr">
+              <span>${dayLabels[dayKey]||dayKey}</span>
+              <span class="exp-day-total">¥${dayTotal.toFixed(0)} <span style="font-size:.72rem;font-weight:400">≈ S$${(dayTotal/EXP_RATE).toFixed(0)}</span></span>
+            </div>
+            ${items.map(e=>`
+              <div class="exp-item">
+                <div class="exp-item-icon">${catIcon(e.cat)}</div>
+                <div class="exp-item-info">
+                  <div class="exp-item-name">${e.desc||'—'}</div>
+                  <div class="exp-item-meta">${catLabel(e.cat)} · ${e.who||'Group'}</div>
+                </div>
+                <div class="exp-item-amt">
+                  <div class="exp-item-cny">¥${e.cny.toFixed(0)}</div>
+                  <div class="exp-item-sgd">S$${cnyToSgd(e.cny)}</div>
+                </div>
+                <button class="exp-del-btn" data-id="${e.id}" title="Delete">✕</button>
+              </div>`).join('')}
+          </div>`;
+        }).join('')}
+
+        ${data.length>0?`<button class="exp-clear-btn" id="exp-clear">🗑️ Clear all expenses</button>`:''}
+      </div>`;
+
+    // Wire up events
+    document.getElementById('exp-add-btn').onclick=()=>{ formOpen=!formOpen; render(); };
+    const form = document.getElementById('exp-form');
+    if(form){
+      document.getElementById('ef-save').onclick=()=>{
+        const cny = parseFloat(document.getElementById('ef-cny').value);
+        if(!cny||cny<=0){ alert('Enter a valid amount'); return; }
+        const entry = {
+          id: Date.now().toString(),
+          cny,
+          desc: document.getElementById('ef-desc').value.trim()||'Expense',
+          cat: document.getElementById('ef-cat').value,
+          day: document.getElementById('ef-day').value,
+          who: document.getElementById('ef-who').value,
+          ts: Date.now()
+        };
+        const arr = expLoad(); arr.push(entry); expSave(arr);
+        formOpen=false; render();
+      };
+      document.getElementById('ef-cancel').onclick=()=>{ formOpen=false; render(); };
+    }
+    document.querySelectorAll('.exp-del-btn').forEach(btn=>{
+      btn.onclick=()=>{
+        if(!confirm('Delete this entry?')) return;
+        const arr = expLoad().filter(e=>e.id!==btn.dataset.id); expSave(arr); render();
+      };
+    });
+    document.querySelectorAll('.exp-cat-tab').forEach(btn=>{
+      btn.onclick=()=>{ filterCat=btn.dataset.cat; render(); };
+    });
+    const clearBtn = document.getElementById('exp-clear');
+    if(clearBtn) clearBtn.onclick=()=>{ if(confirm('Clear ALL expenses? This cannot be undone.')){ expSave([]); render(); } };
+  }
+
+  render();
 }
 
 // ═══════════════════════════════════════════════════════════
