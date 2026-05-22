@@ -1932,7 +1932,12 @@ function renderWellness(){
 // ═══════════════════════════════════════════════════════════
 const EXP_KEY = 'beauty-china-trip-expenses';
 const EXP_IMG_PREFIX = 'bct-img-';
-const EXP_RATE = 4.85; // 1 SGD ≈ 4.85 CNY
+const EXP_RATE = 5.30; // 1 SGD ≈ 5.30 CNY
+const EXP_PRE_DAYS = [
+  {key:'may21', emoji:'🚆', label:'21 May', sublabel:'Tianjin'},
+  {key:'may22', emoji:'🏙️', label:'22 May', sublabel:'Tianjin'},
+];
+const EXP_ALL_DAYS = [...EXP_PRE_DAYS, ...DAYS];
 const EXP_CATS = [
   {key:'all',       label:'All',       icon:'📋'},
   {key:'food',      label:'Food',      icon:'🍜'},
@@ -2020,7 +2025,7 @@ function renderExpenses(){
     const byDay = {};
     filtered.forEach(e=>{ if(!byDay[e.day]) byDay[e.day]=[]; byDay[e.day].push(e); });
     const dayLabels = {};
-    DAYS.forEach(d=>{ dayLabels[d.key]=d.emoji+' '+d.label; });
+    EXP_ALL_DAYS.forEach(d=>{ dayLabels[d.key]=d.emoji+' '+d.label+(d.sublabel?' · '+d.sublabel:''); });
 
     tl.innerHTML = `
       <div class="day-hdr">
@@ -2090,7 +2095,7 @@ function renderExpenses(){
             <div>
               <label>Date</label>
               <select id="ef-day">
-                ${DAYS.map(d=>`<option value="${d.key}">${d.emoji} ${d.label}</option>`).join('')}
+                ${EXP_ALL_DAYS.map(d=>`<option value="${d.key}">${d.emoji} ${d.label} ${d.sublabel?'· '+d.sublabel:''}</option>`).join('')}
               </select>
             </div>
           </div>
