@@ -599,6 +599,9 @@ body{
 #timeline::-webkit-scrollbar-track{background:var(--mint-light);}
 #timeline::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
 </style>
+<!-- Firebase Realtime Database -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -1948,10 +1951,56 @@ const EXP_CATS = [
   {key:'other',     label:'Other',     icon:'💸'},
 ];
 
-function expLoad(){ try{ return JSON.parse(localStorage.getItem(EXP_KEY)||'[]'); }catch(e){ return []; } }
-function expSave(data){ localStorage.setItem(EXP_KEY, JSON.stringify(data)); }
+// ── Firebase config ─────────────────────────────────────────
+const FIREBASE_CONFIG = {
+  apiKey:            "REPLACE_API_KEY",
+  authDomain:        "REPLACE_PROJECT_ID.firebaseapp.com",
+  databaseURL:       "REPLACE_DATABASE_URL",
+  projectId:         "REPLACE_PROJECT_ID",
+  storageBucket:     "REPLACE_PROJECT_ID.appspot.com",
+  messagingSenderId: "REPLACE_SENDER_ID",
+  appId:             "REPLACE_APP_ID"
+};
+
+// ── Firebase init ────────────────────────────────────────────
+let _fbRef = null;
+let _expCache = [];
+let _fbReady = false;
+let _expRender = null; // set by renderExpenses so the listener can call it
+
+(function initFirebase(){
+  if(FIREBASE_CONFIG.apiKey.includes('REPLACE')) return;
+  try {
+    if(!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    const db = firebase.database();
+    _fbRef = db.ref('bct-expenses');
+    _fbReady = true;
+    _fbRef.on('value', snap => {
+      const val = snap.val() || {};
+      _expCache = Object.values(val).sort((a,b)=>(a.ts||0)-(b.ts||0));
+      if(typeof _expRender === 'function') _expRender();
+    });
+  } catch(e){ console.warn('Firebase init error:', e); }
+})();
+
+function expLoad(){
+  if(_fbReady) return _expCache;
+  try{ return JSON.parse(localStorage.getItem(EXP_KEY)||'[]'); }catch(e){ return []; }
+}
+function expAdd(entry){
+  if(_fbReady){ _fbRef.child(entry.id).set(entry); }
+  else { const a=expLoad(); a.push(entry); localStorage.setItem(EXP_KEY,JSON.stringify(a)); }
+}
+function expDel(id){
+  if(_fbReady){ _fbRef.child(id).remove(); }
+  else { localStorage.setItem(EXP_KEY,JSON.stringify(expLoad().filter(e=>e.id!==id))); }
+}
+function expClear(){
+  if(_fbReady){ _fbRef.remove(); }
+  else { localStorage.removeItem(EXP_KEY); }
+}
 function expImgLoad(id){ return localStorage.getItem(EXP_IMG_PREFIX+id)||null; }
-function expImgSave(id, dataUrl){ try{ localStorage.setItem(EXP_IMG_PREFIX+id, dataUrl); }catch(e){ alert('Storage full — image too large, try a smaller photo.'); } }
+function expImgSave(id, dataUrl){ try{ localStorage.setItem(EXP_IMG_PREFIX+id, dataUrl); }catch(e){ alert('Storage full — try a smaller photo.'); } }
 function expImgDel(id){ localStorage.removeItem(EXP_IMG_PREFIX+id); }
 
 // Compress image via canvas before storing
@@ -1975,6 +2024,8 @@ function compressImage(file, maxPx, quality, cb){
 function renderExpenses(){
   const tl = document.getElementById('timeline');
   activeMarkers.forEach(m=>map.removeLayer(m)); activeMarkers=[];
+  // Register render fn so Firebase listener can re-call it
+  _expRender = ()=>{ if(document.getElementById('stab-expenses')?.classList.contains('active')) render(); };
 
   // Ensure lightbox exists
   if(!document.getElementById('exp-lightbox')){
@@ -2038,7 +2089,12 @@ function renderExpenses(){
         </div>
       </div>
       <div class="spec-section">
-        <div class="exp-rate-note">Exchange rate: 1 SGD ≈ ${EXP_RATE} CNY (estimate)</div>
+        <div class="exp-rate-note" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+          <span>1 SGD ≈ ${EXP_RATE} CNY</span>
+          <span style="font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:20px;background:${_fbReady?'#E8F5E9':'#FFF9C4'};color:${_fbReady?'#2E7D32':'#F57F17'}">
+            ${_fbReady?'🟢 Live sync ON':'🟡 Offline mode'}
+          </span>
+        </div>
 
         <!-- Settlement card -->
         <div class="exp-settle">
@@ -2216,8 +2272,9 @@ function renderExpenses(){
           ts: Date.now()
         };
         if(pendingImg) expImgSave(id, pendingImg);
-        const arr = expLoad(); arr.push(entry); expSave(arr);
-        formOpen=false; pendingImg=null; render();
+        expAdd(entry);
+        formOpen=false; pendingImg=null;
+        if(!_fbReady) render(); // Firebase triggers re-render via onValue; localStorage needs manual call
       };
 
       document.getElementById('ef-cancel').onclick=()=>{ formOpen=false; pendingImg=null; render(); };
@@ -2228,8 +2285,8 @@ function renderExpenses(){
       btn.onclick=()=>{
         if(!confirm('Delete this entry?')) return;
         expImgDel(btn.dataset.id);
-        expSave(expLoad().filter(e=>e.id!==btn.dataset.id));
-        render();
+        expDel(btn.dataset.id);
+        if(!_fbReady) render();
       };
     });
 
@@ -2243,7 +2300,8 @@ function renderExpenses(){
     if(clearBtn) clearBtn.onclick=()=>{
       if(!confirm('Clear ALL expenses? This cannot be undone.')) return;
       expLoad().forEach(e=>expImgDel(e.id));
-      expSave([]); render();
+      expClear();
+      if(!_fbReady) render();
     };
 
     // Receipt lightbox
