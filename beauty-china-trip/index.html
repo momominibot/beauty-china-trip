@@ -369,6 +369,8 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--cream);col
 .exp-item-sgd{font-size:.68rem;color:var(--muted)}
 .exp-del-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:1rem;padding:0 2px;flex-shrink:0}
 .exp-del-btn:hover{color:#e53935}
+.exp-edit-btn{background:none;border:none;color:#ccc;cursor:pointer;font-size:.85rem;padding:0 2px;flex-shrink:0}
+.exp-edit-btn:hover{color:#1976D2}
 .exp-item-receipt{width:100%;max-height:160px;object-fit:cover;display:block;cursor:pointer;border-top:1px solid var(--border)}
 .exp-empty{text-align:center;padding:32px 16px;color:var(--muted);font-size:.9rem}
 .exp-empty .empty-icon{font-size:2.5rem;margin-bottom:8px}
@@ -2041,6 +2043,7 @@ function renderExpenses(){
   let formWho = 'me'; // 'ivy' or 'me'
   let formCurr = 'cny'; // 'cny' or 'sgd'
   let pendingImg = null; // compressed data URL before save
+  let editId = null; // null = new, string = editing existing entry id
 
   function catIcon(k){ return (EXP_CATS.find(c=>c.key===k)||{icon:'💸'}).icon; }
   function catLabel(k){ return (EXP_CATS.find(c=>c.key===k)||{label:'Other'}).label; }
@@ -2063,11 +2066,11 @@ function renderExpenses(){
       verdictHtml = `<div class="exp-settle-verdict even">✅ You're perfectly even!</div>`;
     } else if(ivyBalance>0){
       // Ivy paid more → Me owes Ivy
-      verdictHtml = `<div class="exp-settle-verdict me-owes">💚 You owe Ivy ¥${ivyBalance.toFixed(0)} (S$${(ivyBalance/EXP_RATE).toFixed(0)})</div>`;
+      verdictHtml = `<div class="exp-settle-verdict me-owes">💚 Jamie owes Ivy ¥${ivyBalance.toFixed(0)} (S$${(ivyBalance/EXP_RATE).toFixed(0)})</div>`;
     } else {
       // Me paid more → Ivy owes Me
       const amt = Math.abs(ivyBalance);
-      verdictHtml = `<div class="exp-settle-verdict ivy-owes">💜 Ivy owes you ¥${amt.toFixed(0)} (S$${(amt/EXP_RATE).toFixed(0)})</div>`;
+      verdictHtml = `<div class="exp-settle-verdict ivy-owes">💜 Ivy owes Jamie ¥${amt.toFixed(0)} (S$${(amt/EXP_RATE).toFixed(0)})</div>`;
     }
 
     const catTotals = {};
@@ -2108,7 +2111,7 @@ function renderExpenses(){
             </div>
             <div class="exp-settle-arrow">⟺<br><span style="font-size:.65rem">fair share<br>¥${fairShare.toFixed(0)} each</span></div>
             <div class="exp-person-card me">
-              <div class="exp-person-name">🙋 Me</div>
+              <div class="exp-person-name">🙋 Jamie</div>
               <div class="exp-person-paid">¥${mePaid.toFixed(0)}</div>
               <div class="exp-person-share">S$${sgd(mePaid)} paid</div>
             </div>
@@ -2143,7 +2146,7 @@ function renderExpenses(){
         <button class="exp-add-btn" id="exp-add-btn">＋ Add Expense</button>
 
         <div class="exp-form ${formOpen?'open':''}" id="exp-form">
-          <h4>New Expense</h4>
+          <h4>${editId?'Edit Expense':'New Expense'}</h4>
           <div class="exp-row">
             <div>
               <label>Currency</label>
@@ -2191,7 +2194,7 @@ function renderExpenses(){
               <label>Paid by</label>
               <div class="exp-who-toggle" id="ef-who-toggle">
                 <button class="exp-who-btn ${formWho==='ivy'?'active-ivy':''}" data-who="ivy">🌸 Ivy</button>
-                <button class="exp-who-btn ${formWho==='me'?'active-me':''}" data-who="me">🙋 Me</button>
+                <button class="exp-who-btn ${formWho==='me'?'active-me':''}" data-who="me">🙋 Jamie</button>
               </div>
             </div>
           </div>
@@ -2207,7 +2210,7 @@ function renderExpenses(){
             </div>
           </div>
           <div class="exp-form-actions">
-            <button class="exp-save-btn" id="ef-save">💾 Save</button>
+            <button class="exp-save-btn" id="ef-save">${editId?'✏️ Update':'💾 Save'}</button>
             <button class="exp-cancel-btn" id="ef-cancel">Cancel</button>
           </div>
         </div>
@@ -2231,7 +2234,7 @@ function renderExpenses(){
               const imgData = expImgLoad(e.id);
               const half = (e.cny/2).toFixed(0);
               const payerClass = e.who==='ivy'?'ivy':'me';
-              const payerLabel = e.who==='ivy'?'🌸 Ivy paid':'🙋 Me paid';
+              const payerLabel = e.who==='ivy'?'🌸 Ivy paid':'🙋 Jamie paid';
               return `
               <div class="exp-item">
                 <div class="exp-item-main">
@@ -2250,6 +2253,7 @@ function renderExpenses(){
                       : `<div class="exp-item-cny">¥${e.cny.toFixed(0)}</div><div class="exp-item-sgd">S$${sgd(e.cny)}</div>`
                     }
                   </div>
+                  <button class="exp-edit-btn" data-id="${e.id}" title="Edit">✏️</button>
                   <button class="exp-del-btn" data-id="${e.id}" title="Delete">✕</button>
                 </div>
                 ${imgData?`<img class="exp-item-receipt" src="${imgData}" alt="receipt" data-id="${e.id}">`:''}
@@ -2262,7 +2266,7 @@ function renderExpenses(){
       </div>`;
 
     // ── Wire events ──
-    document.getElementById('exp-add-btn').onclick=()=>{ formOpen=!formOpen; if(!formOpen) pendingImg=null; render(); };
+    document.getElementById('exp-add-btn').onclick=()=>{ formOpen=!formOpen; if(!formOpen){ pendingImg=null; editId=null; } render(); };
 
     const form = document.getElementById('exp-form');
     if(form){
@@ -2294,12 +2298,12 @@ function renderExpenses(){
         compressImage(file, 1000, 0.75, dataUrl=>{ pendingImg=dataUrl; render(); });
       };
 
-      // Save
+      // Save / Update
       document.getElementById('ef-save').onclick=()=>{
         const rawAmt = parseFloat(document.getElementById('ef-amt').value);
         if(!rawAmt||rawAmt<=0){ alert('Enter a valid amount'); return; }
         const cny = formCurr==='sgd' ? rawAmt*EXP_RATE : rawAmt;
-        const id = Date.now().toString();
+        const id = editId || Date.now().toString();
         const entry = {
           id, cny,
           origAmt: rawAmt, origCurr: formCurr,
@@ -2307,16 +2311,47 @@ function renderExpenses(){
           cat: document.getElementById('ef-cat').value,
           day: document.getElementById('ef-day').value,
           who: formWho,
-          ts: Date.now()
+          ts: editId ? (expLoad().find(e=>e.id===editId)?.ts||Date.now()) : Date.now()
         };
+        if(editId) expDel(editId); // remove old before re-adding
         if(pendingImg) expImgSave(id, pendingImg);
         expAdd(entry);
-        formOpen=false; pendingImg=null; formCurr='cny';
+        formOpen=false; pendingImg=null; formCurr='cny'; editId=null;
         if(!_fbReady) render(); // Firebase triggers re-render via onValue; localStorage needs manual call
       };
 
-      document.getElementById('ef-cancel').onclick=()=>{ formOpen=false; pendingImg=null; formCurr='cny'; render(); };
+      document.getElementById('ef-cancel').onclick=()=>{ formOpen=false; pendingImg=null; formCurr='cny'; editId=null; render(); };
+
+      // Pre-populate when editing
+      if(editId){
+        const orig = expLoad().find(e=>e.id===editId);
+        if(orig){
+          const amtEl = document.getElementById('ef-amt');
+          const descEl = document.getElementById('ef-desc');
+          const catEl = document.getElementById('ef-cat');
+          const dayEl = document.getElementById('ef-day');
+          if(amtEl) amtEl.value = orig.origCurr==='sgd' ? orig.origAmt : orig.cny;
+          if(descEl) descEl.value = orig.desc||'';
+          if(catEl) catEl.value = orig.cat||'food';
+          if(dayEl) dayEl.value = orig.day||EXP_ALL_DAYS[0].key;
+        }
+      }
     }
+
+    // Edit
+    document.querySelectorAll('.exp-edit-btn').forEach(btn=>{
+      btn.onclick=()=>{
+        const id = btn.dataset.id;
+        const orig = expLoad().find(e=>e.id===id);
+        if(!orig) return;
+        editId = id;
+        formWho = orig.who||'me';
+        formCurr = orig.origCurr||'cny';
+        pendingImg = expImgLoad(id)||null;
+        formOpen = true;
+        render();
+      };
+    });
 
     // Delete
     document.querySelectorAll('.exp-del-btn').forEach(btn=>{
